@@ -1,0 +1,27 @@
+= komic-cli
+
+* {Homepage}[https://rubygems.org/gems/komic-cli]
+* {Documentation}[http://rubydoc.info/gems/komic-cli/frames]
+* {Email}[mailto:hxgdzyuyi at gmail.com]
+
+== Description
+
+TODO: Description
+
+== Features
+
+== Examples
+
+  require 'komic/cli'
+
+== Requirements
+
+== Install
+
+  $ gem install komic-cli
+
+== Copyright
+
+Copyright (c) 2015 hxgdzyuyi
+
+See LICENSE.txt for details.
