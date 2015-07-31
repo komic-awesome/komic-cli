@@ -1,0 +1,12 @@
+name: komic-cli
+summary: "komic-cli"
+description: "komic-cli"
+license: MIT
+authors: hxgdzyuyi
+email: hxgdzyuyi@gmail.com
+homepage: https://rubygems.org/gems/komic-cli
+
+development_dependencies:
+  rdoc: ~> 3.0
+  rspec: ~> 2.4
+  rubygems-tasks: ~> 0.2

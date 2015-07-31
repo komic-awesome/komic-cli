@@ -5,8 +5,8 @@ require File.expand_path('../lib/komic/cli/version', __FILE__)
 Gem::Specification.new do |gem|
   gem.name          = "komic-cli"
   gem.version       = Komic::Cli::VERSION
-  gem.summary       = %q{TODO: Summary}
-  gem.description   = %q{TODO: Description}
+  gem.summary       = %q{ komic-cli }
+  gem.description   = %q{ komic-cli }
   gem.license       = "MIT"
   gem.authors       = ["hxgdzyuyi"]
   gem.email         = "hxgdzyuyi@gmail.com"
@@ -17,6 +17,8 @@ Gem::Specification.new do |gem|
   gem.test_files    = gem.files.grep(%r{^(test|spec|features)/})
   gem.require_paths = ['lib']
 
+  gem.add_development_dependency 'bundler', '~> 1.0'
+  gem.add_development_dependency 'rake', '~> 0.8'
   gem.add_development_dependency 'rdoc', '~> 3.0'
   gem.add_development_dependency 'rspec', '~> 2.4'
   gem.add_development_dependency 'rubygems-tasks', '~> 0.2'
