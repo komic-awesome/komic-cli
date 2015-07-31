@@ -1,0 +1,11 @@
+#!/usr/bin/env ruby
+
+require 'rubygems'
+
+begin
+  require 'komic'
+rescue LoadError => e
+  abort 'Could not load "komic"'
+end
+
+Komic::Cli.start( ARGV )
