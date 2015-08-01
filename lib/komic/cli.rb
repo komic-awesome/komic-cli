@@ -1,5 +1,6 @@
 require 'thor'
 require 'komic/crawler/douban'
+require 'komic/generator/generator'
 
 module Komic
   # This module handles the Komic executables .
@@ -19,9 +20,8 @@ module Komic
 
     desc "test", "Test APP"
     def test
-      p "#{__FILE__}"
-      p "#{__dir__}"
-      p Dir.pwd
+      generator = Komic::Generator.new
+      generator.generate_fake
     end
   end
 end

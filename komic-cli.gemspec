@@ -19,6 +19,8 @@ Gem::Specification.new do |gem|
   gem.add_dependency 'mechanize'
   gem.add_dependency 'mime-types'
   gem.add_dependency 'mini_magick'
+  gem.add_dependency 'jbuilder'
+  gem.add_dependency 'json-schema'
 
   gem.add_development_dependency 'bundler', '~> 1.0'
   gem.add_development_dependency 'rake', '~> 0.8'
