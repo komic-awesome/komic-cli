@@ -22,6 +22,12 @@ module Komic
       generator.create_package({ images: images, meta: { name: title } }, options)
     end
 
+    desc "version", "显示版本"
+    def version
+      say "Komic #{Komic::VERSION}"
+      say "Komic's content.json version #{Komic::CONTENT_JSON_VERSION}"
+    end
+
     desc "mock", "生成虚拟的画册数据"
     option :'page-number', default: 6, desc: "设定页数"
     option :size, default: "700-1024x900-1000", desc: "设定尺寸"
