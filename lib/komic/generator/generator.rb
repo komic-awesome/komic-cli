@@ -1,11 +1,12 @@
 require 'fileutils'
 require 'tempfile'
-require 'pathname'
 require 'jbuilder'
 require 'json'
 require 'json-schema'
 require 'mini_magick'
 require 'base64'
+
+require 'komic/version'
 require 'komic/generator/helpers'
 
 module Komic
@@ -69,6 +70,8 @@ module Komic
 
     def to_build
       content_builder = Jbuilder.new do |json|
+        json.komic_cli_version Komic::VERSION
+        json.content_json_version Komic::CONTENT_JSON_VERSION
         json.(@meta, :name, :author, :description, :thumbnails)
         json.images @images
       end

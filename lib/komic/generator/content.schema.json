@@ -3,6 +3,14 @@
   "id": "/",
   "type": "object",
   "properties": {
+    "komic_cli_version": {
+      "id": "komic_version",
+      "type": "string"
+    },
+    "content_json_version": {
+      "id": "komic_version",
+      "type": "string"
+    },
     "name": {
       "id": "name",
       "type": "string"
@@ -61,6 +69,8 @@
     }
   },
   "required": [
+    "komic_cli_version",
+    "content_json_version",
     "name",
     "author",
     "description",
