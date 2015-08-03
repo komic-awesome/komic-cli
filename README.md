@@ -18,7 +18,7 @@ MAC OS 下
 ```
   Commands:
     komic download URL    # 从 url 下载画册数据 (* 目前只支持豆瓣相册)
-    komic mock            # 生成虚拟的画册数据])
+    komic mock            # 生成虚拟的画册数据
     komic help [COMMAND]  # Describe available commands or one specific command
 
   Usage:
