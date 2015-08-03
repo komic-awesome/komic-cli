@@ -100,24 +100,25 @@ module Komic
       )
     end
 
-    def create_fake_image(filename)
+    def create_fake_image(filename, size)
+      size = Helpers.parse_size(size)
       file = Tempfile.new(filename)
-      image_width = Random.rand(768...1024)
-      image_height = 768
+      image_width = size[:width]
+      image_height = size[:height]
       file.write render_fake_svg({ width: image_width, height: image_height })
       file.close
       return { src: file.path, width: image_width, height: image_height }
     end
 
-    def generate_fake()
-      root_dir = File.join(Dir.pwd, 'fake')
+    def generate_mock(options)
+      root_dir = File.join(Dir.pwd, options[:name])
       image_dir = File.join(root_dir, 'images')
 
       [root_dir, image_dir].each { |path| FileUtils.mkdir_p path }
 
-      files = Array.new(Random.rand(5...10))
+      files = Array.new(options[:'page-number'])
         .map.with_index do |value, index|
-          create_fake_image index.to_s
+          create_fake_image index.to_s, options[:size]
         end
 
       files.map.with_index do |image, index|

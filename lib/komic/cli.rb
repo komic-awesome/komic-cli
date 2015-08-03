@@ -18,10 +18,13 @@ module Komic
     def fake
     end
 
-    desc "test", "Test APP"
-    def test
+    desc "mock", "生成虚拟的画册数据"
+    option :'page-number', default: 6, desc: "设定页数"
+    option :size, default: "700-1024x900-1000", desc: "设定尺寸"
+    option :name, default: "mock", desc: "设定文件夹名"
+    def mock
       generator = Komic::Generator.new
-      generator.generate_fake
+      generator.generate_mock options
     end
   end
 end
