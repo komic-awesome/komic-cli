@@ -1,10 +1,19 @@
+## Requirements
+
+### 需要安装带有 rsvg 的 imagemagick 用来处理 SVG
+
+MAC OS 下
+```bash
+  brew install imagemagick --with-librsvg
+```
+
 ## Install
 
 ```bash
   $ gem install komic-cli
 ```
 
-## USAGE
+## Usage
 
 Commands:
   komic download URL    # 从 url 下载画册数据 (* 目前只支持豆瓣相册)
