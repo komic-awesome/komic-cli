@@ -155,6 +155,9 @@ module Komic
         },
       }
 
+      # TODO(yangqing): require deep_merge, dirty but work
+      meta.merge!(data[:meta]) unless data[:meta].nil?
+
       content_builder = ContentBuilder.new(meta, files)
       File.open(File.join(root_dir, './content.json'), 'w') do |file|
         file.write content_builder.to_build

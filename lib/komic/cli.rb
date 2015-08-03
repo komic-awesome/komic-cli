@@ -19,7 +19,7 @@ module Komic
         { src: image_path, width: image.width, height: image.height }
       end
       generator = Komic::Generator.new
-      generator.create_package({ images: images }, options)
+      generator.create_package({ images: images, meta: { name: title } }, options)
     end
 
     desc "mock", "生成虚拟的画册数据"
