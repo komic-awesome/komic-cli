@@ -20,12 +20,12 @@ Gem::Specification.new do |gem|
   gem.test_files    = gem.files.grep(%r{^(test|spec|features)/})
   gem.require_paths = ['lib']
 
-  gem.add_dependency 'thor'
-  gem.add_dependency 'mechanize'
-  gem.add_dependency 'mime-types'
-  gem.add_dependency 'mini_magick'
-  gem.add_dependency 'jbuilder'
-  gem.add_dependency 'json-schema'
+  gem.add_runtime_dependency 'thor', '~> 0.19'
+  gem.add_runtime_dependency 'mechanize', '~> 2.7'
+  gem.add_runtime_dependency 'mime-types', '~> 2.6'
+  gem.add_runtime_dependency 'mini_magick', '~> 4.2'
+  gem.add_runtime_dependency 'jbuilder', '~> 2.3'
+  gem.add_runtime_dependency 'json-schema', '~> 2.5'
 
   gem.add_development_dependency 'bundler', '~> 1.0'
   gem.add_development_dependency 'rake', '~> 0.8'
