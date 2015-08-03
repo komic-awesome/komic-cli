@@ -9,7 +9,7 @@ module Komic
 
     map '-d' => :download
 
-    desc "download URL", "Download uri's images from url (* Only douban )"
+    desc "download URL", "从 url 下载画册数据 (* 目前只支持豆瓣相册)"
     option :name, default: "crawled_from_douban", desc: "设定文件夹名"
     def download(url)
       crawler = Komic::Crawler::Douban.new
