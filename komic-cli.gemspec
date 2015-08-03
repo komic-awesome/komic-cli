@@ -1,8 +1,13 @@
 # -*- encoding: utf-8 -*-
 
+lib_dir = File.join(File.dirname(__FILE__),'lib')
+$LOAD_PATH << lib_dir unless $LOAD_PATH.include?(lib_dir)
+
+require 'komic/version'
+
 Gem::Specification.new do |gem|
   gem.name          = "komic-cli"
-  gem.version       = "0.1.0"
+  gem.version       = Komic::VERSION
   gem.summary       = %q{ komic-cli }
   gem.description   = %q{ komic-cli }
   gem.license       = "MIT"
