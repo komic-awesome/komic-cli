@@ -1,6 +1,7 @@
 require 'thor'
 require 'komic/crawler/douban'
 require 'komic/generator/generator'
+require 'mini_magick'
 
 module Komic
   # This module handles the Komic executables .
@@ -9,13 +10,16 @@ module Komic
     map '-d' => :download
 
     desc "download URL", "Download uri's images from url (* Only douban )"
+    option :name, default: "crawled_from_douban", desc: "设定文件夹名"
     def download(url)
       crawler = Komic::Crawler::Douban.new
-      title, files = crawler.get_crawled_result(url)
-    end
-
-    desc "test", "Test APP"
-    def fake
+      title, images = crawler.get_crawled_result(url)
+      images = images.map do |image_path|
+        image = MiniMagick::Image.open(image_path)
+        { src: image_path, width: image.width, height: image.height }
+      end
+      generator = Komic::Generator.new
+      generator.create_package({ images: images }, options)
     end
 
     desc "mock", "生成虚拟的画册数据"
@@ -24,7 +28,8 @@ module Komic
     option :name, default: "mock", desc: "设定文件夹名"
     def mock
       generator = Komic::Generator.new
-      generator.generate_mock options
+      mocks = generator.generate_mocks options
+      generator.create_package({ images: mocks }, options)
     end
   end
 end

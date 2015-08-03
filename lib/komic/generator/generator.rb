@@ -102,7 +102,7 @@ module Komic
 
     def create_fake_image(filename, size)
       size = Helpers.parse_size(size)
-      file = Tempfile.new(filename)
+      file = Tempfile.new([filename, '.svg'])
       image_width = size[:width]
       image_height = size[:height]
       file.write render_fake_svg({ width: image_width, height: image_height })
@@ -110,19 +110,25 @@ module Komic
       return { src: file.path, width: image_width, height: image_height }
     end
 
-    def generate_mock(options)
+    def generate_mocks(options)
+      images = Array.new(options[:'page-number'])
+        .map.with_index do |value, index|
+          create_fake_image index.to_s, options[:size]
+        end
+    end
+
+    def create_package(data, options)
       root_dir = File.join(Dir.pwd, options[:name])
       image_dir = File.join(root_dir, 'images')
 
       [root_dir, image_dir].each { |path| FileUtils.mkdir_p path }
 
-      files = Array.new(options[:'page-number'])
-        .map.with_index do |value, index|
-          create_fake_image index.to_s, options[:size]
-        end
+      files = data[:images]
 
       files.map.with_index do |image, index|
-        image_path = File.join(image_dir, "#{index}.svg")
+        image_manager = MiniMagick::Image.open(image[:src])
+
+        image_path = File.join(image_dir, [index, image_manager.type.downcase].join('.'))
         FileUtils.mv image[:src], image_path
         image[:src] = image_path
         image

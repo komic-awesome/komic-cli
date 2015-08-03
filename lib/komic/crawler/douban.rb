@@ -15,6 +15,7 @@ module Komic
       def get_crawled_result(album_home_url)
         next_link_url = album_home_url
         next_link = nil
+        album_title = nil
 
         @mechanize.get(album_home_url) do |page|
           album_title = page.at('title').text().strip!
@@ -35,7 +36,11 @@ module Komic
           next_link_url = next_link["href"]
         end
 
-        return album_title, Dir.entries(@tmpdir) - %w[. ..]
+        image_pathes = (Dir.entries(@tmpdir) - %w[. ..]).map do |path|
+          File.join(@tmpdir, path)
+        end
+
+        return album_title, image_pathes
       end
 
       def crawl_album_page(album_page_url)
