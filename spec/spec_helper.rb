@@ -1,4 +1,4 @@
 require 'rspec'
-require 'komic/cli/version'
+require 'komic/version'
 
-include Komic::Cli
+include Komic

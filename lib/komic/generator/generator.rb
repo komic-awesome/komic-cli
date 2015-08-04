@@ -8,7 +8,6 @@ require 'base64'
 
 require 'komic/version'
 require 'komic/utils'
-require 'komic/generator/helpers'
 
 module Komic
   class ThumbnailsBuilder
@@ -102,7 +101,7 @@ module Komic
     end
 
     def create_fake_image(filename, size)
-      size = Helpers.parse_size(size)
+      size = Utils.parse_size(size)
       file = Tempfile.new([filename, '.svg'])
       image_width = size[:width]
       image_height = size[:height]
@@ -142,7 +141,7 @@ module Komic
       end
 
       files.map do |image, index|
-        image[:src] = Helpers.get_relativepath_as(image[:src], root_dir)
+        image[:src] = Utils.get_relativepath_as(image[:src], root_dir)
         image
       end
 
@@ -152,7 +151,7 @@ module Komic
         author: { name: 'TEST' },
         thumbnails: {
           height: 200,
-          path: Helpers.get_relativepath_as(thumbnail_path, root_dir),
+          path: Utils.get_relativepath_as(thumbnail_path, root_dir),
         },
       }
 
