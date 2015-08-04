@@ -3,7 +3,7 @@ require 'komic/utils'
 
 describe Komic::Utils do
   it "get relative path" do
-    relative_path = subject.get_relativepath_as("/user/x/abc", "/user/x")
+    relative_path = subject.get_relative_path("/user/x/abc", "/user/x")
     expect(relative_path).to be_eql("./abc")
   end
 

@@ -141,7 +141,7 @@ module Komic
       end
 
       files.map do |image, index|
-        image[:src] = Utils.get_relativepath_as(image[:src], root_dir)
+        image[:src] = Utils.get_relative_path(image[:src], root_dir)
         image
       end
 
@@ -151,7 +151,7 @@ module Komic
         author: { name: 'TEST' },
         thumbnails: {
           height: 200,
-          path: Utils.get_relativepath_as(thumbnail_path, root_dir),
+          path: Utils.get_relative_path(thumbnail_path, root_dir),
         },
       }
 

@@ -39,7 +39,7 @@ module Komic
       return { width: width, height: height }
     end
 
-    def get_relativepath_as(path, root)
+    def get_relative_path(path, root)
       File.join('./',
         Pathname.new(path).relative_path_from(
           Pathname.new(root)
