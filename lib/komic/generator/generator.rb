@@ -7,6 +7,7 @@ require 'mini_magick'
 require 'base64'
 
 require 'komic/version'
+require 'komic/utils'
 require 'komic/generator/helpers'
 
 module Komic
@@ -155,8 +156,9 @@ module Komic
         },
       }
 
-      # TODO(yangqing): require deep_merge, dirty but work
-      meta.merge!(data[:meta]) unless data[:meta].nil?
+      unless data[:meta].nil?
+        meta = Utils.deep_merge_hashes(meta, data[:meta])
+      end
 
       content_builder = ContentBuilder.new(meta, files)
       File.open(File.join(root_dir, './content.json'), 'w') do |file|
