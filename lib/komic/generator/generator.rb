@@ -7,7 +7,7 @@ require 'mini_magick'
 require 'base64'
 
 require 'komic/version'
-require 'komic/generator/helpers'
+require 'komic/utils'
 
 module Komic
   class ThumbnailsBuilder
@@ -101,7 +101,7 @@ module Komic
     end
 
     def create_fake_image(filename, size)
-      size = Helpers.parse_size(size)
+      size = Utils.parse_size(size)
       file = Tempfile.new([filename, '.svg'])
       image_width = size[:width]
       image_height = size[:height]
@@ -141,7 +141,7 @@ module Komic
       end
 
       files.map do |image, index|
-        image[:src] = Helpers.get_relativepath_as(image[:src], root_dir)
+        image[:src] = Utils.get_relative_path(image[:src], root_dir)
         image
       end
 
@@ -151,12 +151,13 @@ module Komic
         author: { name: 'TEST' },
         thumbnails: {
           height: 200,
-          path: Helpers.get_relativepath_as(thumbnail_path, root_dir),
+          path: Utils.get_relative_path(thumbnail_path, root_dir),
         },
       }
 
-      # TODO(yangqing): require deep_merge, dirty but work
-      meta.merge!(data[:meta]) unless data[:meta].nil?
+      unless data[:meta].nil?
+        meta = Utils.deep_merge_hashes(meta, data[:meta])
+      end
 
       content_builder = ContentBuilder.new(meta, files)
       File.open(File.join(root_dir, './content.json'), 'w') do |file|

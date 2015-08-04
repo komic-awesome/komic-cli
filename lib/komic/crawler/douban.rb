@@ -2,6 +2,7 @@ require 'mechanize'
 require 'fileutils'
 require 'mime/types'
 require 'tmpdir'
+require 'ruby-progressbar'
 
 module Komic
   module Crawler
@@ -10,6 +11,7 @@ module Komic
         @mechanize = Mechanize.new
         @file_index = 0
         @tmpdir = Dir.mktmpdir
+        @willbe_downloaded = []
       end
 
       def get_crawled_result(album_home_url)
@@ -36,8 +38,22 @@ module Komic
           next_link_url = next_link["href"]
         end
 
-        image_pathes = (Dir.entries(@tmpdir) - %w[. ..]).map do |path|
-          File.join(@tmpdir, path)
+        # green background
+        color_code = "\e[0m\e[32m\e[7m\e[1m"
+        reset_code = "\e[0m"
+        progress_status = "#{color_code} %p%% #{reset_code}"
+
+        bar = ProgressBar.create( :format         => "%a %bᗧ%i #{progress_status} %t",
+                                  :title          => 'Download image from douban',
+                                  :progress_mark  => ' ',
+                                  :remainder_mark => '･',
+                                  :total => @willbe_downloaded.size,
+                                  :starting_at    => 0 )
+
+        image_pathes = @willbe_downloaded.map do |url|
+          image_path = download_image url
+          bar.increment
+          image_path
         end
 
         return album_title, image_pathes
@@ -62,10 +78,10 @@ module Komic
 
         unless link_to_large.nil?
           @mechanize.get(link_to_large['href']) do |page|
-            download_image(page.at('#pic-viewer img')["src"])
+            @willbe_downloaded.push(page.at('#pic-viewer img')["src"])
           end
         else
-          download_image(thumb_photo_url)
+          @willbe_downloaded.push(thumb_photo_url)
         end
       end
 
@@ -73,11 +89,12 @@ module Komic
         resource = @mechanize.get(photo_url)
         content_type = resource["content-type"]
         mime_type = MIME::Types[resource["content-type"]].first
-        resource.save(File.expand_path( \
-          [@file_index, mime_type.extensions.first].join('.'), @tmpdir))
+        image_path = File.expand_path( \
+          [@file_index, mime_type.extensions.first].join('.'), @tmpdir)
+        resource.save(image_path)
         @file_index = @file_index + 1
-        p 'current image is ' + @file_index.to_s
         sleep 2
+        image_path
       end
     end
   end
