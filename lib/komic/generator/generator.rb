@@ -142,6 +142,9 @@ module Komic
 
       files.map do |image, index|
         image[:src] = Utils.get_relative_path(image[:src], root_dir)
+        if options[:'remote-url']
+          image[:src] = "https://placeimg.com/#{image[:width]}/#{image[:height]}/any"
+        end
         image
       end
 
