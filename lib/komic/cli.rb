@@ -30,6 +30,7 @@ module Komic
 
     desc "mock", "生成虚拟的画册数据"
     option :'page-number', default: 6, desc: "设定页数"
+    option :'remote-url', default: false, desc: "是否让图片使用 https://placeimg.com/ 作为图片源"
     option :size, default: "700-1024x900-1000", desc: "设定尺寸"
     option :name, default: "mock", desc: "设定文件夹名"
     def mock
