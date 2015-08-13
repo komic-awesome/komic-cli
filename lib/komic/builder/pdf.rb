@@ -1,6 +1,7 @@
 require 'tempfile'
 require 'mime/types'
 require 'ruby-progressbar'
+require 'komic/utils'
 
 module Komic::Builder
   class PDF
@@ -14,17 +15,7 @@ module Komic::Builder
     def images
       pdf = MiniMagick::Image.new(@pdf_path)
 
-      # green background
-      color_code = "\e[0m\e[32m\e[7m\e[1m"
-      reset_code = "\e[0m"
-      progress_status = "#{color_code} %p%% #{reset_code}"
-
-      bar = ProgressBar.create( :format         => "%a %bᗧ%i #{progress_status} %t",
-                                :title          => 'Download image from douban',
-                                :progress_mark  => ' ',
-                                :remainder_mark => '･',
-                                :total => pdf.pages.size,
-                                :starting_at    => 0 )
+      bar = Komic::Utils.create_progress("Extract images from pdf", pdf.pages.size)
 
       pdf.pages.each_with_index.map do |page, idx|
         will_be_write = Tempfile.new("#{idx}").path

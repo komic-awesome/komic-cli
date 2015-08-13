@@ -45,5 +45,19 @@ module Komic
           Pathname.new(root)
         ))
     end
+
+    def create_progress(title, total)
+      # green background
+      color_code = "\e[0m\e[32m\e[7m\e[1m"
+      reset_code = "\e[0m"
+      progress_status = "#{color_code} %p%% #{reset_code}"
+
+      ProgressBar.create( :format         => "%a %bᗧ%i #{progress_status} %t",
+                          :title          => title,
+                          :progress_mark  => ' ',
+                          :remainder_mark => '･',
+                          :total => total,
+                          :starting_at    => 0 )
+    end
   end
 end

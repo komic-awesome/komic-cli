@@ -38,17 +38,8 @@ module Komic
           next_link_url = next_link["href"]
         end
 
-        # green background
-        color_code = "\e[0m\e[32m\e[7m\e[1m"
-        reset_code = "\e[0m"
-        progress_status = "#{color_code} %p%% #{reset_code}"
-
-        bar = ProgressBar.create( :format         => "%a %bᗧ%i #{progress_status} %t",
-                                  :title          => 'Download image from douban',
-                                  :progress_mark  => ' ',
-                                  :remainder_mark => '･',
-                                  :total => @willbe_downloaded.size,
-                                  :starting_at    => 0 )
+        bar = Utils.create_progress("Download images from douban", \
+          @willbe_downloaded.size)
 
         image_pathes = @willbe_downloaded.map do |url|
           image_path = download_image url
