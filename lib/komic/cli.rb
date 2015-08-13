@@ -1,6 +1,7 @@
 require 'thor'
 require 'komic/crawler/douban'
 require 'komic/generator/generator'
+require 'komic/builder'
 require 'mini_magick'
 
 module Komic
@@ -37,6 +38,14 @@ module Komic
       generator = Komic::Generator.new
       mocks = generator.generate_mocks options
       generator.create_package({ images: mocks }, options)
+    end
+
+    desc "dev", '生成 dev 的数据'
+    option :name, default: "dev", desc: "设定文件夹名"
+    def dev(type_string)
+      generator = Komic::Generator.new
+      pdf_builder = Builder::Factory.get_builder(type_string, options)
+      generator.create_package({ images: pdf_builder.images }, options)
     end
   end
 end
