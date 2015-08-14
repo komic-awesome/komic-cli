@@ -1,25 +1,16 @@
 require 'thor'
-require 'komic/crawler/douban'
 require 'komic/generator/generator'
+require 'komic/builder'
 require 'mini_magick'
 
 module Komic
   # This module handles the Komic executables .
   class Cli < Thor
 
-    map '-d' => :download
-
     desc "download URL", "从 url 下载画册数据 (* 目前只支持豆瓣相册)"
     option :name, default: "crawled_from_douban", desc: "设定文件夹名"
     def download(url)
-      crawler = Komic::Crawler::Douban.new
-      title, images = crawler.get_crawled_result(url)
-      images = images.map do |image_path|
-        image = MiniMagick::Image.open(image_path)
-        { src: image_path, width: image.width, height: image.height }
-      end
-      generator = Komic::Generator.new
-      generator.create_package({ images: images, meta: { name: title } }, options)
+      dev(url)
     end
 
     desc "version", "显示版本"
@@ -37,6 +28,22 @@ module Komic
       generator = Komic::Generator.new
       mocks = generator.generate_mocks options
       generator.create_package({ images: mocks }, options)
+    end
+
+    desc "dev", '生成 dev 的数据'
+    option :name, default: "dev", desc: "设定文件夹名"
+    def dev(type_string)
+      generator = Komic::Generator.new
+      pdf_builder = Builder::Factory.get_builder(type_string, options)
+      generator.create_package({ images: pdf_builder.images }, options)
+    end
+
+    desc "create", '生成网站'
+    option :name, default: "dev", desc: "设定文件夹名"
+    def create(type_string)
+      generator = Komic::Generator.new
+      builder = Builder::Factory.get_builder(type_string, options)
+      generator.create_website({ images: builder.images }, options)
     end
   end
 end

@@ -27,6 +27,7 @@ Gem::Specification.new do |gem|
   gem.add_runtime_dependency 'jbuilder', '~> 2.3'
   gem.add_runtime_dependency 'json-schema', '~> 2.5'
   gem.add_runtime_dependency 'ruby-progressbar', '~> 1.7'
+  gem.add_runtime_dependency 'rubyzip', '~> 1.1'
 
   gem.add_development_dependency 'bundler', '~> 1.0'
   gem.add_development_dependency 'rake', '~> 0.8'
