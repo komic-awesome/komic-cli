@@ -1,3 +1,5 @@
+require "ruby-progressbar"
+
 module Komic
   module Utils extend self
     # Merges a master hash with another hash, recursively.

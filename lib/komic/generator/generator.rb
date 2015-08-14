@@ -134,7 +134,7 @@ module Komic
           [index, manager.type.downcase].join('.'))
 
         manager.quality(60)
-        manager.strip()
+        manager.strip() unless manager.type.downcase == 'svg'
         manager.write image_path
         image[:src] = image_path
         image
