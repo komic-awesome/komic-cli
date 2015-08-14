@@ -1,10 +1,17 @@
 require 'komic/builder/pdf'
+require 'uri'
 
 module Komic::Builder
   class Factory
     class << self
       def detect_type(string)
         path = File.join(Dir.pwd, string)
+        r_douban_album = Regexp.new "www.douban.com/photos/album/"
+
+        if string =~ URI::regexp and string =~ r_douban_album
+          return 'douban_album'
+        end
+
         if File.exists?(path)
           if File.extname(path) == '.pdf'
             return 'pdf'
