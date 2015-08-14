@@ -123,24 +123,28 @@ module Komic
 
       [root_dir, image_dir].each { |path| FileUtils.mkdir_p path }
 
-      files = data[:images]
+      images = data[:images]
 
-      files.map.with_index do |image, index|
-        image_manager = MiniMagick::Image.open(image[:src])
+      images.map.with_index do |image, index|
+        manager = MiniMagick::Image.open(image[:src])
 
-        image_path = File.join(image_dir, [index, image_manager.type.downcase].join('.'))
-        FileUtils.mv image[:src], image_path
+        image_path = File.join(image_dir,
+          [index, manager.type.downcase].join('.'))
+
+        manager.quality(60)
+        manager.strip()
+        manager.write image_path
         image[:src] = image_path
         image
       end
 
-      thumbnails_builder = ThumbnailsBuilder.new(files)
+      thumbnails_builder = ThumbnailsBuilder.new(images)
       thumbnail_path = File.join(image_dir, './thumbnail.svg')
       File.open(thumbnail_path, 'w') do |file|
         file.write thumbnails_builder.to_build
       end
 
-      files.map do |image, index|
+      images.map do |image, index|
         image[:src] = Utils.get_relative_path(image[:src], root_dir)
         if options[:'remote-url']
           image[:src] = "https://placeimg.com/#{image[:width]}/#{image[:height]}/any"
@@ -162,7 +166,7 @@ module Komic
         meta = Utils.deep_merge_hashes(meta, data[:meta])
       end
 
-      content_builder = ContentBuilder.new(meta, files)
+      content_builder = ContentBuilder.new(meta, images)
       File.open(File.join(root_dir, './content.json'), 'w') do |file|
         file.write content_builder.to_build
       end

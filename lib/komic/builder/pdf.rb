@@ -22,8 +22,6 @@ module Komic::Builder
         page.write will_be_write
         image = MiniMagick::Image.open(will_be_write)
         image.format('jpg')
-        image.interpolate('bicubic')
-        image.quality(60)
         image.write Tempfile.new(["#{idx}", '.jpg']).path
         bar.increment
         { width: image.width, height: image.height, src: image.path }
