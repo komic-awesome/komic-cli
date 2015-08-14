@@ -47,5 +47,13 @@ module Komic
       pdf_builder = Builder::Factory.get_builder(type_string, options)
       generator.create_package({ images: pdf_builder.images }, options)
     end
+
+    desc "create", '生成网站'
+    option :name, default: "dev", desc: "设定文件夹名"
+    def create(type_string)
+      generator = Komic::Generator.new
+      builder = Builder::Factory.get_builder(type_string, options)
+      generator.create_website({ images: builder.images }, options)
+    end
   end
 end

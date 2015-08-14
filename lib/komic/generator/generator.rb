@@ -5,6 +5,8 @@ require 'json'
 require 'json-schema'
 require 'mini_magick'
 require 'base64'
+require 'open-uri'
+require 'zip'
 
 require 'komic/version'
 require 'komic/utils'
@@ -170,7 +172,21 @@ module Komic
       File.open(File.join(root_dir, './content.json'), 'w') do |file|
         file.write content_builder.to_build
       end
+    end
 
+    def create_website(data, options)
+      root_dir = File.join(Dir.pwd, options[:name])
+      create_package(data, options)
+      dist_project = "komic-web-dist"
+      dist_branch = "master"
+      uri = "https://github.com/komic-awesome/#{dist_project}/archive/#{dist_branch}.zip"
+      source = open(uri)
+      Zip::File.open(source.path) do |zip_file|
+        zip_file.each do |entry|
+          entry.extract(File.join(root_dir, File.basename(entry.name))) \
+            if File.fnmatch("#{dist_project}-#{dist_branch}/?*", entry.name)
+        end
+      end
     end
   end
 end
