@@ -1,4 +1,5 @@
 require 'komic/builder/pdf'
+require 'komic/builder/douban_album'
 require 'uri'
 
 module Komic::Builder
@@ -23,6 +24,7 @@ module Komic::Builder
       def get_builder(type_string, options)
         case detect_type(type_string)
         when 'pdf' then PDF.new(type_string, options)
+        when 'douban_album' then DoubanAlbum.new(type_string, options)
         end
       end
     end
