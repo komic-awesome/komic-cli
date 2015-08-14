@@ -6,10 +6,11 @@ module Komic::Builder
       def detect_type(string)
         path = File.join(Dir.pwd, string)
         if File.exists?(path)
-          if File.basename(path, '.pdf')
+          if File.extname(path) == '.pdf'
             return 'pdf'
           end
         end
+        raise "Builder can't be found."
       end
 
       def get_builder(type_string, options)
