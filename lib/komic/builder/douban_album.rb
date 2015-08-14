@@ -3,7 +3,6 @@ require 'fileutils'
 require 'mime/types'
 require 'tmpdir'
 require 'komic/utils'
-require 'ruby-progressbar'
 
 module Komic::Builder
   class DoubanAlbum

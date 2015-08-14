@@ -1,6 +1,4 @@
 require 'tempfile'
-require 'mime/types'
-require 'ruby-progressbar'
 require 'komic/utils'
 
 module Komic::Builder
