@@ -128,7 +128,14 @@ module Komic
       images = data[:images]
 
       images.map.with_index do |image, index|
-        manager = MiniMagick::Image.open(image[:src])
+        # dirty but work
+        if image[:src].instance_of? Tempfile
+          will_be_open = image[:src].path
+        else
+          will_be_open = image[:src]
+        end
+
+        manager = MiniMagick::Image.open(will_be_open)
 
         image_path = File.join(image_dir,
           [index, manager.type.downcase].join('.'))
