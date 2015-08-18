@@ -16,13 +16,14 @@ module Komic::Builder
       bar = Komic::Utils.create_progress("Extract images from pdf", pdf.pages.size)
 
       pdf.pages.each_with_index.map do |page, idx|
-        will_be_write = Tempfile.new("#{idx}").path
-        page.write will_be_write
-        image = MiniMagick::Image.open(will_be_write)
+        will_be_write = Tempfile.new("#{idx}")
+        page.write will_be_write.path
+        image = MiniMagick::Image.open(will_be_write.path)
         image.format('jpg')
-        image.write Tempfile.new(["#{idx}", '.jpg']).path
+        will_be_write = Tempfile.new(["#{idx}", '.jpg'])
+        image.write will_be_write.path
         bar.increment
-        { width: image.width, height: image.height, src: image.path }
+        { width: image.width, height: image.height, src: will_be_write }
       end
     end
   end
