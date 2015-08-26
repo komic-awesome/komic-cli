@@ -7,6 +7,7 @@ require 'mini_magick'
 require 'base64'
 require 'open-uri'
 require 'zip'
+require 'uglifier'
 
 require 'komic/version'
 require 'komic/utils'
@@ -192,6 +193,12 @@ module Komic
         zip_file.each do |entry|
           entry.extract(File.join(root_dir, File.basename(entry.name))) \
             if File.fnmatch("#{dist_project}-#{dist_branch}/?*", entry.name)
+        end
+      end
+      Dir.glob("#{root_dir}/**/*.js") do |path|
+        uglified = Uglifier.compile(File.read(path))
+        File.open(path, 'w') do |file|
+          file.write uglified
         end
       end
     end
