@@ -11,6 +11,10 @@
       "id": "komic_version",
       "type": "string"
     },
+    "content_json_uuid": {
+      "id": "content_json_uuid",
+      "type": "string"
+    },
     "name": {
       "id": "name",
       "type": "string"

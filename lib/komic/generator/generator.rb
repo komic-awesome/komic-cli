@@ -8,6 +8,7 @@ require 'base64'
 require 'open-uri'
 require 'zip'
 require 'uglifier'
+require 'securerandom'
 
 require 'komic/version'
 require 'komic/utils'
@@ -75,6 +76,7 @@ module Komic
       content_builder = Jbuilder.new do |json|
         json.komic_cli_version Komic::VERSION
         json.content_json_version Komic::CONTENT_JSON_VERSION
+        json.content_json_uuid SecureRandom.uuid
         json.(@meta, :name, :author, :description, :thumbnails)
         json.images @images
       end
