@@ -32,6 +32,7 @@ module Komic
 
     desc "dev", '生成 dev 的数据'
     option :name, default: "dev", desc: "设定文件夹名"
+    option :debug, default: true, desc: "开启 debug 模式"
     def dev(type_string)
       generator = Komic::Generator.new
       pdf_builder = Builder::Factory.get_builder(type_string, options)

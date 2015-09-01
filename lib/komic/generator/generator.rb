@@ -71,7 +71,7 @@ module Komic
       end
     end
 
-    def to_build
+    def to_build(options)
       content_builder = Jbuilder.new do |json|
         json.komic_cli_version Komic::VERSION
         json.content_json_version Komic::CONTENT_JSON_VERSION
@@ -80,7 +80,7 @@ module Komic
       end
       data = content_builder.target!
       validate_json(data)
-      return data
+      return options[:debug] ? JSON.pretty_generate(JSON.parse(data)) : data
     end
   end
 
@@ -178,7 +178,7 @@ module Komic
 
       content_builder = ContentBuilder.new(meta, images)
       File.open(File.join(root_dir, './content.json'), 'w') do |file|
-        file.write content_builder.to_build
+        file.write content_builder.to_build(options)
       end
     end
 
