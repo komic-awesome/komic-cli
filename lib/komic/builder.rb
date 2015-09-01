@@ -1,4 +1,5 @@
 require 'komic/builder/pdf'
+require 'komic/builder/directory'
 require 'komic/builder/zip'
 require 'komic/builder/douban_album'
 require 'uri'
@@ -22,6 +23,8 @@ module Komic::Builder
             return 'pdf'
           elsif file_extname == '.zip'
             return 'zip'
+          elsif File.directory?(path)
+            return 'directory'
           end
         end
         raise "Builder can't be found."
@@ -31,6 +34,7 @@ module Komic::Builder
         case detect_type(type_string)
         when 'pdf' then PDF.new(type_string, options)
         when 'zip' then Zip.new(type_string, options)
+        when 'directory' then Directory.new(type_string, options)
         when 'douban_album' then DoubanAlbum.new(type_string, options)
         end
       end

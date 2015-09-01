@@ -5,13 +5,17 @@ describe Komic::Builder do
   subject { Komic::Builder::Factory }
   context "detect file" do
     before { allow(File).to receive(:exists?).and_return(true) }
-    it "detect pdf type" do
-      expect( subject.detect_type('test.pdf') ).to be_eql('pdf')
+
+    context "detect type" do
+      before { allow(File).to receive(:directory?).and_return(true) }
+      it "detect type" do
+        expect( subject.detect_type('test.pdf') ).to be_eql('pdf')
+        expect( subject.detect_type('test.zip') ).to be_eql('zip')
+        expect( subject.detect_type('test') ).to be_eql('directory')
+      end
     end
-    it "detect zip type" do
-      expect( subject.detect_type('test.zip') ).to be_eql('zip')
-    end
-    it "detect throw error" do
+
+    it "detect file throw error" do
       expect{ subject.detect_type('.pdf') }.to raise_error RuntimeError
       expect{ subject.detect_type('.zip') }.to raise_error RuntimeError
     end
