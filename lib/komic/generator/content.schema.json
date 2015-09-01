@@ -55,6 +55,34 @@
           "id": "0",
           "type": "object",
           "properties": {
+            "web": {
+              "id": "web",
+              "type": "object",
+              "properties": {
+                "src": {
+                  "id": "src",
+                  "type": "object",
+                  "properties": {
+                    "default": {
+                      "id": "default",
+                      "type": "string"
+                    },
+                    "jpg": {
+                      "id": "jpg",
+                      "type": "string"
+                    }
+                  }
+                },
+                "width": {
+                  "id": "width",
+                  "type": "integer"
+                },
+                "height": {
+                  "id": "height",
+                  "type": "integer"
+                }
+              }
+            },
             "src": {
               "id": "src",
               "type": "string"

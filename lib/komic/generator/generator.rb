@@ -130,7 +130,7 @@ module Komic
 
       images = data[:images]
 
-      images.map.with_index do |image, index|
+      images.map!.with_index do |image, index|
         # dirty but work
         if image[:src].instance_of? Tempfile
           will_be_open = image[:src].path
@@ -140,6 +140,7 @@ module Komic
 
         manager = MiniMagick::Image.open(will_be_open)
 
+        image_type = manager.type.downcase
         image_path = File.join(image_dir,
           [index, manager.type.downcase].join('.'))
 
@@ -147,7 +148,19 @@ module Komic
         manager.strip() unless manager.type.downcase == 'svg'
         manager.write image_path
         image[:src] = image_path
-        image
+
+        manager.format 'webp'
+        webp_path = File.join(image_dir,
+          [[index, 'webp'].join('-'), manager.type.downcase].join('.'))
+        manager.write webp_path
+
+        src = {}
+        src[:default] = image_type
+        src[image_type] = image_path
+        src[:webp] = webp_path
+
+        web = Utils.deep_merge_hashes(image, { src: src })
+        Utils.deep_merge_hashes(image, { web: web })
       end
 
       thumbnails_builder = ThumbnailsBuilder.new(images)
@@ -156,7 +169,7 @@ module Komic
         file.write thumbnails_builder.to_build
       end
 
-      images.map do |image, index|
+      images.map do |image|
         image[:src] = Utils.get_relative_path(image[:src], root_dir)
         if options[:'remote-url']
           image[:src] = "https://placeimg.com/#{image[:width]}/#{image[:height]}/any"
