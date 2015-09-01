@@ -7,7 +7,13 @@ describe Komic::Builder do
     before { allow(File).to receive(:exists?).and_return(true) }
     it "detect pdf type" do
       expect( subject.detect_type('test.pdf') ).to be_eql('pdf')
+    end
+    it "detect zip type" do
+      expect( subject.detect_type('test.zip') ).to be_eql('zip')
+    end
+    it "detect throw error" do
       expect{ subject.detect_type('.pdf') }.to raise_error RuntimeError
+      expect{ subject.detect_type('.zip') }.to raise_error RuntimeError
     end
   end
 

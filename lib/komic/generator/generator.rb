@@ -189,7 +189,7 @@ module Komic
       dist_branch = "master"
       uri = "https://github.com/komic-awesome/#{dist_project}/archive/#{dist_branch}.zip"
       source = open(uri)
-      Zip::File.open(source.path) do |zip_file|
+      ::Zip::File.open(source.path) do |zip_file|
         zip_file.each do |entry|
           entry.extract(File.join(root_dir, File.basename(entry.name))) \
             if File.fnmatch("#{dist_project}-#{dist_branch}/?*", entry.name)
