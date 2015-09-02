@@ -156,8 +156,8 @@ module Komic
 
         src = {}
         src[:default] = image_type
-        src[image_type] = image_path
-        src[:webp] = webp_path
+        src[image_type] = Utils.get_relative_path(image_path, root_dir)
+        src[:webp] = Utils.get_relative_path(webp_path, root_dir)
 
         web = Utils.deep_merge_hashes(image, { src: src })
         Utils.deep_merge_hashes(image, { web: web })
